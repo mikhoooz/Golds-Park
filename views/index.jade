@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  if !user
+    li: a(href="/login/facebook") login by facebook
+  else
+    p Hi #{user.displayName}
+
