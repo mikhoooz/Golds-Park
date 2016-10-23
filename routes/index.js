@@ -8,9 +8,6 @@ router.get('/',
         res.render('index', { user: req.user });
     });
 
-router.get('/game',
-    function(req, res) {
-        res.render('game', { user: req.user });
-    });
+
 
 module.exports = router;

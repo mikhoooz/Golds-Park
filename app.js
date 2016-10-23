@@ -2,7 +2,9 @@ var express = require('express');
 var passport = require('./config/passport.js');
 
 
-var router = require('./routes/index')
+var index = require('./routes/index');
+var game = require('./routes/game');
+
 
 // Create a new Express application.
 var app = express();
@@ -25,8 +27,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-app.use('/',router);
-
+app.use('/',index);
+app.use('/game',game);
 
 app.get('/login/facebook',
     passport.authenticate('facebook'));
