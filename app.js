@@ -1,6 +1,6 @@
 var express = require('express');
 var passport = require('./config/passport.js');
-
+var session = require('express-session');
 
 var index = require('./routes/index');
 var game = require('./routes/game');
@@ -14,17 +14,23 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.static(__dirname + '/public'));
 
+var sessionMiddleware = session({
+        secret: 'SomeSecretStuffThatYouShouldNotReadAnyMore',
+        resave: true,
+        saveUninitialized: true });
+
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
 app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
-app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
 
 // Initialize Passport and restore authentication state, if any, from the
 // session.
+app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 
 app.use('/',index);
@@ -41,4 +47,19 @@ app.get('/login/facebook/return',
 
 
 
-app.listen(3000);
+
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+server.listen(3000);
+
+io.use(function(socket,next){
+    sessionMiddleware(socket.request,socket.request.res,next);
+});
+
+
+var nsp = io.of('/game');
+nsp.on('connection', function(socket){
+    console.log('someone connected');
+    nsp.emit('nsp1','Connected to namespace1');
+});
