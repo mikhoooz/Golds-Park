@@ -1,6 +1,8 @@
 var express = require('express');
 var passport = require('./config/passport.js');
 var session = require('express-session');
+var favicon = require('serve-favicon');
+var path = require('path');
 
 var index = require('./routes/index');
 var game = require('./routes/game');
@@ -13,7 +15,6 @@ var app = express();
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.static(__dirname + '/public'));
-
 var sessionMiddleware = session({
         secret: 'SomeSecretStuffThatYouShouldNotReadAnyMore',
         resave: true,
@@ -21,6 +22,7 @@ var sessionMiddleware = session({
 
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
+app.use(favicon(path.join(__dirname, 'public/ico', 'favicon.ico')));
 app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));

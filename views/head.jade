@@ -1,0 +1,24 @@
+//
+   Created by Mahmoud on 11/3/2016.
+
+meta( charset='utf-8' )
+meta( http-equiv='X-UA-Compatible', content='IE=edge' )
+meta( name='viewport', content='width=device-width, initial-scale=1.0' )
+meta( name='description', content='Baking Bootstrap Snippets with Jade' )
+link(href='/css/navbar-fixed-top.css', rel='stylesheet')
+block head
+    +nav("Epic Math", "dropdown_menu")
+        +nav_item( "", "active" ) Home
+        if !user
+            +button("success", "/login/facebook", "large") Login
+        else
+            +nav_item( "/game" ) Play
+            +nav_item_dropdown( "#" )( label="Dropdown")
+                +nav_item( "#" ) Action
+                +nav_item( "#" ) Another action
+                +nav_item( "#" ) Something else here
+                +nav_divider
+                +nav_header Nav header
+                +nav_item( "#" ) Separated link
+                +nav_item( "#" ) One more separated link
+
