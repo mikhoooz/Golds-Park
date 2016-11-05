@@ -22,7 +22,7 @@ var sessionMiddleware = session({
 
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
-app.use(favicon(path.join(__dirname, 'public/ico', 'favicon.ico')));
+//app.use(favicon(path.join(__dirname, 'public/ico', 'favicon.ico')));
 app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
