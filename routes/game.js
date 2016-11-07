@@ -20,7 +20,8 @@ game.get('/',
           var width = 9;
           var height = 7;
           var tileSize = 70;
-          res.render('game', { user: req.user, myGameMap: map, mapWidth:width,mapHieght:height,tileSize:tileSize });
+          var room = 'room1'
+          res.render('game', { user: req.user, myGameMap: map, mapWidth:width,mapHieght:height,tileSize:tileSize ,room:room});
       }
     });
 

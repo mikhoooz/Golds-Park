@@ -3,10 +3,10 @@ var passport = require('./config/passport.js');
 var session = require('express-session');
 var favicon = require('serve-favicon');
 var path = require('path');
-
+var cookieParser = require('cookie-parser');
 var index = require('./routes/index');
 var game = require('./routes/game');
-
+var gameHandler = require('./handlers/gameHandler');
 
 // Create a new Express application.
 var app = express();
@@ -18,7 +18,9 @@ app.use(express.static(__dirname + '/public'));
 var sessionMiddleware = session({
         secret: 'SomeSecretStuffThatYouShouldNotReadAnyMore',
         resave: true,
-        saveUninitialized: true });
+        saveUninitialized: true,
+        cookieParser: cookieParser
+});
 
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
@@ -62,6 +64,26 @@ io.use(function(socket,next){
 
 var nsp = io.of('/game');
 nsp.on('connection', function(socket){
-    console.log('someone connected');
-    nsp.emit('nsp1','Connected to namespace1');
+    // add a item
+
+    if(typeof socket.request.session.passport !== 'undefined') {
+        var user = socket.request.session.passport.user;
+        console.log(user + "connected");
+        gameHandler.handleNewConnection(user);
+    }
+    console.log('someone connected with socket Id' + socket.id);
+  //  socket.join('room1');
+   // nsp.emit('nsp1','Connected to namespace1');
+    socket.on('chat message', function(msg){
+        console.log('message: ' + msg);
+    });
+
+    socket.on('move', function(msg){
+        var user = socket.request.session.passport.user;
+        gameHandler.handleMove(user,msg);
+        console.log('message: ' + msg);
+        console.log(user);
+
+
+    });
 });

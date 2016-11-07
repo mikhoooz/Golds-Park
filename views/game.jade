@@ -1,24 +1,29 @@
 //
    Created by Mahmoud on 10/22/2016.
 
+//extends layout
+//include mixins
 
+block content
+    body
+        link(rel="stylesheet",type="text/css",href="css/game.css")
 
+        if !user
+            li: a(href="/login/facebook") login by facebook
+        else
+            script(src="/socket.io/socket.io.js")
 
-link(rel="stylesheet",type="text/css",href="css/game.css")
-script(src="/socket.io/socket.io.js")
-script.
-    var gameMap = "#{myGameMap}";
-    var mapWidth = "#{mapWidth}";
-    var mapHieght = "#{mapHieght}";
-    var socket = io('http://localhost:3000/game');
-    socket.on('nsp1', function (data) {
+            script.
+                var gameMap = "#{myGameMap}";
+                var mapWidth = "#{mapWidth}";
+                var mapHieght = "#{mapHieght}";
+                var socket = io('http://localhost:3000/game');
+                socket.on('nsp1', function (data) {
 
-    });
-if !user
-    li: a(href="/login/facebook") login by facebook
-else
-    p Hi #{user.displayName} This is the game page
-    canvas(id="myCanvas", onMouseDrag="onMouseDrag", style="border:1px solid")
+                });
+            p Hi #{user.displayName} This is the game page
+            canvas(id="myCanvas", onMouseDrag="onMouseDrag", style="border:1px solid")
 
-    script(type="text/javascript", src="js/paper-full.js")
-    script(type="text/javascript", src="js/game.js")
+            script(type="text/javascript", src="js/paper-full.js")
+            script(type="text/javascript", src="js/game.js")
+            script(type="text/javascript", src="js/socketHandler.js")
